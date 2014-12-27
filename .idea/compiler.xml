@@ -22,12 +22,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="Airport" />
         <module name="SpringMVCApp" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="Airport" target="1.6" />
       <module name="SpringMVCApp" target="1.6" />
     </bytecodeTargetLevel>
   </component>
 </project>
-
