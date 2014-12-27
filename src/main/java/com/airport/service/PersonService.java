@@ -1,8 +1,8 @@
-package com.springapp.service;
+package com.airport.service;
 
 import java.util.List;
 
-import com.springapp.model.Person;
+import com.airport.model.Person;
 
 public interface PersonService {
 

@@ -1,4 +1,4 @@
-package com.springapp;
+package com.airport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.springapp.model.Person;
-import com.springapp.service.PersonService;
+import com.airport.model.Person;
+import com.airport.service.PersonService;
 
 
 @Controller

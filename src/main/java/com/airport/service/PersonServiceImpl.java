@@ -1,12 +1,12 @@
-package com.springapp.service;
+package com.airport.service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.springapp.dao.PersonDAO;
-import com.springapp.model.Person;
+import com.airport.dao.PersonDAO;
+import com.airport.model.Person;
 
 @Service
 public class PersonServiceImpl implements PersonService {

@@ -1,4 +1,4 @@
-package com.springapp.dao;
+package com.airport.dao;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import com.springapp.model.Person;
+import com.airport.model.Person;
 
 @Repository
 public class PersonDAOImpl implements PersonDAO {

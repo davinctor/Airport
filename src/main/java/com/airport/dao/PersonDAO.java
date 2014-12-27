@@ -1,8 +1,8 @@
-package com.springapp.dao;
+package com.airport.dao;
 
 import java.util.List;
 
-import com.springapp.model.Person;
+import com.airport.model.Person;
 
 public interface PersonDAO {
 

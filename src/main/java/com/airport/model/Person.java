@@ -1,4 +1,4 @@
-package com.springapp.model;
+package com.airport.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
