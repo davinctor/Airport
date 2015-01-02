@@ -6,13 +6,17 @@
     <display-name>Airport</display-name>
 
     <servlet>
-        <servlet-name>mvc-dispatcher</servlet-name>
+        <servlet-name>airport</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:spring/mvc-core-config.xml</param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>mvc-dispatcher</servlet-name>
+        <servlet-name>airport</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
 </web-app>
