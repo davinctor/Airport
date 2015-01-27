@@ -1,18 +1,9 @@
 package com.airport.repository.jpa;
 
-import com.airport.model.User;
-import com.airport.repository.UserRepository;
-
-import org.springframework.stereotype.Repository;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
 /**
  * Created by Vic on 02.01.2015.
  */
-@Repository
+/*@Repository
 public class JpaUserRepositoryImpl implements UserRepository {
 
     @PersistenceContext
@@ -39,4 +30,4 @@ public class JpaUserRepositoryImpl implements UserRepository {
         else
             entityManager.merge(user);
     }
-}
+}*/

@@ -1,11 +1,39 @@
-body {
-    background-color: #f4f4f4;
+.panel-login {
+    margin-top: 30px;
 }
 
-#wrapper {
-    border: 1px #e4e4e4 solid;
-    padding: 20px;
-    border-radius: 4px;
-    box-shadow: 0 0 6px #ccc;
-    background-color: #fff;
+.navbar-fixed-bottom {
+    text-align: center;
+}
+
+.navbar-fixed-bottom .navbar-brand {
+    display: inline-block;
+    float: none;
+}
+
+#faq-data {
+    display: none;
+}
+body {
+    padding-top: 70px;
+}
+
+.page-header {
+    margin-top: 0;
+}
+
+.modal-dialog-center {
+    position: absolute;
+    width: 40%;
+    height: 50%;
+    top: 25%;
+    left: 30%;
+}
+
+table tr th {
+    text-align: center;
+}
+
+dl dt {
+    text-align: center !important;
 }

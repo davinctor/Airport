@@ -17,7 +17,6 @@
     <import resource="mvc-view-config.xml"/>
     <import resource="business-config.xml"/>
     <context:component-scan base-package="com.airport.web"/>
-    <mvc:annotation-driven/>
 
     <!--  all resources inside folder src/main/webapp/resources are mapped so they can be refered to inside JSP files
         (see header.jsp for more details) -->
@@ -26,7 +25,7 @@
     <!-- uses WebJars so Javascript and CSS libs can be declared as Maven dependencies (Bootstrap, jQuery...) -->
     <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
 
-    <mvc:view-controller path="/" view-name="welcome"/>
+    <mvc:view-controller path="/" view-name="login"/>
 
     <!-- serve static resources (*.html, ...) from src/main/webapp/
     Required when both servlet-mapping is '/' and static resources need to be served -->
@@ -49,5 +48,20 @@
         <!-- results into 'WEB-INF/jsp/exception.jsp' -->
         <property name="warnLogCategory" value="warn"/>
         <!-- needed otherwise exceptions won't be logged anywhere -->
+    </bean>
+
+    <!-- This bean active support of pageable and sorting -->
+    <bean class="org.springframework.data.web.config.SpringDataWebConfiguration"/>
+
+    <mvc:annotation-driven>
+        <mvc:argument-resolvers>
+            <ref bean="sortResolver"/>
+            <ref bean="pageableResolver"/>
+        </mvc:argument-resolvers>
+    </mvc:annotation-driven>
+
+    <bean id="sortResolver" class="org.springframework.data.web.SortHandlerMethodArgumentResolver"/>
+    <bean id="pageableResolver" class="org.springframework.data.web.PageableHandlerMethodArgumentResolver">
+        <constructor-arg ref="sortResolver"/>
     </bean>
 </beans>

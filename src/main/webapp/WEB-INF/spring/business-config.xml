@@ -13,11 +13,13 @@
     <!-- ========================= RESOURCE DEFINITIONS ========================= -->
     <!-- import the dataSource definition -->
     <import resource="datasource-config.xml"/>
+    <import resource="main-page-services-list.xml"/>
     <context:component-scan base-package="com.airport"/>
+    <jpa:repositories base-package="com.airport"/>
 
     <!-- Configurer that replaces ${...} placeholders with values from a properties file -->
     <!-- (in this case, JDBC-related settings for the JPA EntityManager definition below) -->
-    <context:property-placeholder location="classpath:spring/data-access.properties" system-properties-mode="OVERRIDE"/>
+    <context:property-placeholder location="WEB-INF/spring/data-access.properties" system-properties-mode="OVERRIDE"/>
 
     <!-- enables scanning for @Transactional annotations -->
     <tx:annotation-driven/>
