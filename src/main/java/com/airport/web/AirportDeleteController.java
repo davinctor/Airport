@@ -16,10 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Queue;
 
 @Controller
 public class AirportDeleteController {
