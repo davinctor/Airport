@@ -2,6 +2,8 @@ package com.airport.model;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -14,20 +16,39 @@ public class Staff {
 
     @Basic
     @Column(name = "SURNAME")
+    @NotNull(message = "Фамилия не может быть пустая")
+    @Size(min = 1, max = 25,
+            message = "Фамилия может содержать от 1 до 25 символов")
     private String surname;
+
     @Basic
     @Column(name = "FIRSTNAME")
+    @NotNull(message = "Имя не может быть пустым")
+    @Size(min = 1, max = 25,
+            message = "Имя может содержать от 1 до 25 символов")
     private String firstname;
+
     @Basic
     @Column(name = "PATRONYMIC")
+    @NotNull(message = "Отчество не может быть пустым")
+    @Size(min = 1, max = 25,
+            message = "Отчество может содержать от 1 до 25 символов")
     private String patronymic;
+
     @Basic
     @Column(name = "ADDRESS")
+    @NotNull(message = "Адрес не может быть пустым")
+    @Size(min = 10, max = 100,
+            message = "Адрес может содержать от 10 до 100 символов")
     private String address;
 
     @ManyToOne
     @JoinColumn(name = "DEPARTMENT_ID")
     private Department department;
+
+    @OneToOne
+    @JoinColumn(name = "USER_ID")
+    private User user;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "STAFF_PHONES",
@@ -85,6 +106,14 @@ public class Staff {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Collection<Phone> getPhones() {

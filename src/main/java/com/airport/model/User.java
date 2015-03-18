@@ -1,6 +1,9 @@
 package com.airport.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -13,17 +16,20 @@ public class User {
     @Basic
     @Column(name = "LOGIN")
     @Size(min = 3, max = 10,
-            message = "Неверный логин")
+            message = "Длина от 3 до 10 символов")
+    @NotNull(message = "Пароль не может быть пустым")
     private String login;
 
     @Basic
     @Column(name = "PASSWORD")
+    @NotNull(message = "Пароль не может быть пустым")
     @Size(min = 3, max = 20,
-            message = "Неверный пароль")
+            message = "Длина от 3 до 10 символов")
     private String password;
 
     @Basic
     @Column(name = "ROLE_OF_USER")
+    @NotNull
     private String roleOfUser;
 
     @OneToOne

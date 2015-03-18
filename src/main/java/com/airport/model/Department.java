@@ -1,6 +1,7 @@
 package com.airport.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -14,9 +15,11 @@ public class Department {
 
     @Basic
     @Column(name = "NAME")
+    @NotNull(message = "Укажите название отдела")
     private String name;
     @Basic
     @Column(name = "PHONE_NUM")
+    @NotNull(message = "Укажите номер телефона отдела")
     private String phoneNum;
     @Basic
     @Column(name = "SCHEDULE_FROM")
@@ -36,11 +39,11 @@ public class Department {
     private Date breakTo;
 
     @OneToMany(mappedBy = "department")
-    private Collection<Staff> staffCollection;
+    private Collection<Staff> staffs;
 
     public Department() {
         super();
-        staffCollection = new ArrayList<Staff>();
+        staffs = new ArrayList<Staff>();
     }
 
     public int getId() {
@@ -99,11 +102,11 @@ public class Department {
         this.breakTo = breakTo;
     }
 
-    public Collection<Staff> getStaffCollection() {
-        return staffCollection;
+    public Collection<Staff> getStaffs() {
+        return staffs;
     }
 
-    public void setStaffCollection(Collection<Staff> staffCollection) {
-        this.staffCollection = staffCollection;
+    public void setStaffs(Collection<Staff> staffs) {
+        this.staffs = staffs;
     }
 }

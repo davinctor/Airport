@@ -13,20 +13,29 @@
 </head>
 <body>
 <jsp:include page="fragments/navbar.jsp"/>
-<div class="container-fluid text-center">
+<div class="page-body container-fluid text-center">
+    <c:if test="${not empty restrictDeleteStaff}">
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <strong>Внимание!</strong> ${restrictDeleteStaff}
+        </div>
+    </c:if>
     <div class="page-header row">
         <div class="col-lg-8 col-lg-offset-2">
             <h2>
                 ${user.login}
                 <small>
-                    <a href="/user/edit/${user.id}" class="btn btn-default"
-                       data-original-title="Редактировать данные" data-toggle="tooltip">
-                        <span class="fa fa-pencil"></span>
+                    <a href="/user/edit/${user.id}" class="btn btn-default">
+                        <span class="fa fa-pencil"
+                              data-original-title="Редактировать данные" data-toggle="tooltip">
+                        </span>
                     </a>
                     <a href="" resource="/user/delete/${user.id}" class="btn btn-default"
                        role="button" data-toggle="modal" data-target="#deleteModal">
                         <span class="fa fa-eraser"
-                              data-original-title="Удалить пользователя" data-toggle="tooltip"></span>
+                              data-original-title="Удалить пользователя" data-toggle="tooltip">
+                        </span>
                     </a>
                 </small>
             </h2>
@@ -42,7 +51,7 @@
                 <li class="list-group-item">
                     <dt>Уровень доступа</dt>
                     <dd>
-                        ${user.roleOfUser == 'ROLE_ADMIN' ? 'Администратор' : 'Касир'}
+                        ${user.roleOfUser == 'ROLE_ADMIN' ? 'Администратор' : 'Пользователь'}
                     </dd>
                 </li>
                 <li class="list-group-item">

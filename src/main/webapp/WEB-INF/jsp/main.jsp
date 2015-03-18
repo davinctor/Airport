@@ -16,7 +16,7 @@
 <body>
 <jsp:include page="fragments/navbar.jsp"/>
 <c:set value="0" var="count"/>
-<div class="container-fluid text-center">
+<div class="page-body container-fluid text-center">
     <div class="page-header row">
         <div class="col-lg-8 col-lg-offset-2">
             <h1>Главная</h1>

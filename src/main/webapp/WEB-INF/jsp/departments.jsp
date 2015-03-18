@@ -17,7 +17,21 @@
 
 <body>
 <jsp:include page="fragments/navbar.jsp"/>
-<div class="container-fluid text-center">
+<div class="page-body container-fluid text-center">
+    <c:if test="${not empty deleteDepartmentSuccess}">
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <strong>Успех!</strong> ${deleteDepartmentSuccess}
+        </div>
+    </c:if>
+    <c:if test="${not empty departmentNotFound}">
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <strong>Внимание!</strong> ${departmentNotFound}
+        </div>
+    </c:if>
     <div class="page-header row">
         <div class="col-lg-8 col-lg-offset-2">
             <h1>Список отделов</h1>

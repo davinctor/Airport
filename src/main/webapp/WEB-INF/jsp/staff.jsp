@@ -14,26 +14,27 @@
 </head>
 <body>
 <jsp:include page="fragments/navbar.jsp"/>
-<div class="container-fluid text-center">
+<div class="page-body container-fluid text-center">
     <div class="page-header row">
         <div class="col-lg-8 col-lg-offset-2">
             <h2>
                 ${firstLastName}
                 <small>
-                    <a href="/staff/edit/${staff.id}" class="btn btn-default"
-                       data-original-title="Редактировать профиль" data-toggle="tooltip">
-                        <span class="fa fa-pencil"></span>
+                    <a href="/staff/edit/${staff.id}" class="btn btn-default">
+                        <span class="fa fa-pencil"
+                              data-original-title="Редактировать профиль" data-toggle="tooltip"></span>
                     </a>
                     <a href="" resource="/staff/delete/${staff.id}" class="btn btn-default"
                        role="button" data-toggle="modal" data-target="#deleteModal">
-            <span class="fa fa-eraser"
-                  data-original-title="Удалить профиль" data-toggle="tooltip"></span>
+                        <span class="fa fa-eraser"
+                              data-original-title="Удалить профиль" data-toggle="tooltip"></span>
                     </a>
+
                 </small>
             </h2>
         </div>
     </div>
-    <div class="col-md-offset-4 col-md-4 row">
+    <div class="col-md-offset-3 col-md-6 row">
         <ul class="list-group">
             <dl class="dl-horizontal">
                 <li class="list-group-item">
@@ -51,17 +52,31 @@
                     <dt>Адрес</dt>
                     <dd>${staff.address}</dd>
                 </li>
-                <li class="list-group-item">
-                    <dt>Номер телефона</dt>
-                    <dd>
-                        <c:set var="count" value="0"/>
-                        <c:forEach var="phone" items="${staff.phones}">
-                            ${count > 0 ? '<br/>': '' }
-                            ${phone.phoneNumber}
-                            <c:set var="count" value="${count+1}"/>
-                        </c:forEach>
-                    </dd>
-                </li>
+                <c:set value="${staff.phones}" var="phones"/>
+                <c:if test="${not empty phones and fn:length(phones) gt 0}">
+                    <li class="list-group-item">
+                        <dt>Номер телефона</dt>
+                        <dd>
+                            <c:set var="count" value="0"/>
+                            <c:forEach var="phone" items="${phones}">
+                                ${count > 0 ? '<br/>': '' }
+                                ${phone.phoneNumber}
+                                <c:set var="count" value="${count+1}"/>
+                            </c:forEach>
+                        </dd>
+                    </li>
+                </c:if>
+                <c:set value="${staff.user}" var="user"/>
+                <c:if test="${user != null}">
+                    <li class="list-group-item">
+                        <dt>Профиль пользователя</dt>
+                        <dd>
+                            <a class="btn btn-info btn-sm" href="/user/${user.id}">
+                                    ${user.login}
+                            </a>
+                        </dd>
+                    </li>
+                </c:if>
             </dl>
         </ul>
     </div>

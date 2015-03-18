@@ -9,35 +9,35 @@
     <bean id="listServicesMainPage" class="java.util.ArrayList">
         <constructor-arg>
             <util:list list-class="java.util.ArrayList"
-                       value-type="com.airport.web.MainPageService">
-                <bean class="com.airport.web.MainPageService"
+                       value-type="com.airport.service.MainPageService">
+                <bean class="com.airport.service.MainPageService"
                       p:nameService="Бронирование места"
-                      p:url="/reservation/new" p:icon="fa-ticket" p:isForAdmin="false"/>
-                <bean class="com.airport.web.MainPageService"
+                      p:url="/reservation/find" p:icon="fa-ticket" p:isForAdmin="false"/>
+                <bean class="com.airport.service.MainPageService"
                       p:nameService="Список брони"
                       p:url="/reservations" p:icon="fa-indent" p:isForAdmin="false"/>
-                <bean class="com.airport.web.MainPageService"
+                <bean class="com.airport.service.MainPageService"
                       p:nameService="Регистрация"
                       p:url="/registration/new" p:icon="fa-check" p:isForAdmin="false"/>
-                <bean class="com.airport.web.MainPageService"
+                <bean class="com.airport.service.MainPageService"
                       p:nameService="Список регистраций"
                       p:url="/registration" p:icon="fa-list-ul" p:isForAdmin="false"/>
-                <bean class="com.airport.web.MainPageService"
+                <bean class="com.airport.service.MainPageService"
                       p:nameService="Новый пользователь"
-                      p:url="/users/new" p:icon="fa-user-plus" p:isForAdmin="true"/>
-                <bean class="com.airport.web.MainPageService"
+                      p:url="/user/new" p:icon="fa-user" p:isForAdmin="true"/>
+                <bean class="com.airport.service.MainPageService"
                       p:nameService="Список пользователей"
                       p:url="/users" p:icon="fa-users" p:isForAdmin="true"/>
-                <bean class="com.airport.web.MainPageService"
+                <bean class="com.airport.service.MainPageService"
                       p:nameService="Добавить сотрудника"
                       p:url="/staff/new" p:icon="fa-plus-square" p:isForAdmin="true"/>
-                <bean class="com.airport.web.MainPageService"
+                <bean class="com.airport.service.MainPageService"
                       p:nameService="Персонал"
                       p:url="/staffs" p:icon="fa-suitcase" p:isForAdmin="true"/>
-                <bean class="com.airport.web.MainPageService"
+                <bean class="com.airport.service.MainPageService"
                       p:nameService="Новый отдел"
                       p:url="/department/new" p:icon="fa-plus" p:isForAdmin="true"/>
-                <bean class="com.airport.web.MainPageService"
+                <bean class="com.airport.service.MainPageService"
                       p:nameService="Список отделов"
                       p:url="/departments" p:icon="fa-building" p:isForAdmin="true"/>
             </util:list>

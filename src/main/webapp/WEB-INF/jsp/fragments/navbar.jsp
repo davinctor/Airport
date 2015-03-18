@@ -30,7 +30,7 @@
                         <span class="fa fa-ticket"></span> Бронирование <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="${itemMenuUrl}/new">Бронирование места</a></li>
+                        <li><a href="${itemMenuUrl}/find">Бронирование места</a></li>
                         <li class="divider"></li>
                         <li><a href="${itemMenuUrl}s">Список брони</a></li>
                     </ul>

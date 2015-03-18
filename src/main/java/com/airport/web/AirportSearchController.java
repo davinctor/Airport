@@ -18,7 +18,7 @@ import java.util.*;
 @Controller
 public class AirportSearchController {
     private final int DONT_CHOOSE = 1;
-    private final int ADMIN   = 2;
+    private final int ADMIN = 2;
     private final int USER = 3;
 
     @Autowired
@@ -26,9 +26,9 @@ public class AirportSearchController {
 
     @RequestMapping(value = "/user/search", method = RequestMethod.GET)
     public String showFindUsersResult(
-            @PageableDefault(page = 0,value = 10) Pageable pageable,
-            @RequestParam(value="username", required = false) String username,
-            @RequestParam(value="role", required = false) Integer role,
+            @PageableDefault(page = 0, value = 10) Pageable pageable,
+            @RequestParam(value = "username", required = false) String username,
+            @RequestParam(value = "role", required = false) Integer role,
             Model model, Principal principal) {
         model.addAttribute("curUser", getCurrentUser(principal.getName()));
         model.addAttribute("role", role);
@@ -42,7 +42,7 @@ public class AirportSearchController {
         } else {
             if (role != null) {
                 if (role == DONT_CHOOSE)
-                    usersList =  airportService.getUsers(pageable).getContent();
+                    usersList = airportService.getUsers(pageable).getContent();
 
                 if (role == USER || role == ADMIN)
                     usersList = airportService.findUsersByRole(getRole(role), pageable).getContent();
@@ -59,8 +59,10 @@ public class AirportSearchController {
 
     private String getRole(int role) {
         switch (role) {
-            case ADMIN: return "ROLE_ADMIN";
-            case USER: return "ROLE_USER";
+            case ADMIN:
+                return "ROLE_ADMIN";
+            case USER:
+                return "ROLE_USER";
         }
         return "";
     }

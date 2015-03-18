@@ -97,7 +97,7 @@ public class AirportController {
                            @ModelAttribute("restrictDeleteStaff") String restrictDelete) {
         model.addAttribute("curUser", getCurrentUser(principal.getName()));
         model.addAttribute("user", airportService.findUserByIdWithPhones(userId));
-        model.addAttribute("restrictDeleteStaff",restrictDelete);
+        model.addAttribute("restrictDeleteStaff", restrictDelete);
         return "user";
     }
 

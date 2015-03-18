@@ -77,13 +77,13 @@ public class AirportCreateUpdateController {
 
     @RequestMapping(value = "department/new", method = RequestMethod.POST)
     public String addNewDepartment(@Valid @ModelAttribute("department") Department department,
-                                    BindingResult bindingResult,
-                                    Principal principal,
-                                    Model model,
-                                    @RequestParam(value = "scheduleFromTime") String scheduleFrom,
-                                    @RequestParam(value = "scheduleToTime") String scheduleTo,
-                                    @RequestParam(value = "breakFromTime") String breakFrom,
-                                    @RequestParam(value = "breakToTime") String breakTo) {
+                                   BindingResult bindingResult,
+                                   Principal principal,
+                                   Model model,
+                                   @RequestParam(value = "scheduleFromTime") String scheduleFrom,
+                                   @RequestParam(value = "scheduleToTime") String scheduleTo,
+                                   @RequestParam(value = "breakFromTime") String breakFrom,
+                                   @RequestParam(value = "breakToTime") String breakTo) {
 
         return addSaveDepartment(department, bindingResult, principal, model,
                 scheduleFrom, scheduleTo, breakFrom, breakTo);
@@ -164,11 +164,11 @@ public class AirportCreateUpdateController {
 
     @RequestMapping(value = "/staff/new", method = RequestMethod.POST)
     public String addNewStaff(@Valid @ModelAttribute("staff") Staff staff,
-        BindingResult bindingResult,
-        Principal principal,
-        Model model,
-        @RequestParam(value = "department-id", required = false, defaultValue = "-1") Integer departmentId,
-        @RequestParam(value = "phone-numbers", required = false, defaultValue = "") String phones) {
+                              BindingResult bindingResult,
+                              Principal principal,
+                              Model model,
+                              @RequestParam(value = "department-id", required = false, defaultValue = "-1") Integer departmentId,
+                              @RequestParam(value = "phone-numbers", required = false, defaultValue = "") String phones) {
         Department department = null;
         boolean departmentError = departmentId == -1 ||
                 (department = airportService.findDepartmentById(departmentId)) == null;
@@ -222,10 +222,10 @@ public class AirportCreateUpdateController {
 
     @RequestMapping(value = "/user/new", method = RequestMethod.POST)
     public String addNewUser(@Valid @ModelAttribute("user") User user,
-            BindingResult bindingResult,
-            Principal principal, Model model,
-            @RequestParam(value = "staff-id", required = false, defaultValue = "-1") Integer staffId,
-            @RequestParam(value = "re-password", required = false, defaultValue = "") String rePassword) {
+                             BindingResult bindingResult,
+                             Principal principal, Model model,
+                             @RequestParam(value = "staff-id", required = false, defaultValue = "-1") Integer staffId,
+                             @RequestParam(value = "re-password", required = false, defaultValue = "") String rePassword) {
         Staff staff = null;
         boolean rePassError = rePassword.isEmpty()
                 || !rePassword.equals(user.getPassword());

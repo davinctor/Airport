@@ -13,20 +13,25 @@
 </head>
 <body>
 <jsp:include page="fragments/navbar.jsp"/>
-<div class="container-fluid text-center">
+<div class="page-body container-fluid text-center">
     <div class="page-header row">
         <div class="col-lg-8 col-lg-offset-2">
             <h2>
                 ${department.name}
                 <small>
-                    <a href="/department/edit/${department.id}" class="btn btn-default"
-                       data-original-title="Редактировать отдел" data-toggle="tooltip">
-                        <span class="fa fa-pencil"></span>
+                    <a href="/department/edit/${department.id}" class="btn btn-default">
+                        <span class="fa fa-pencil"
+                              data-original-title="Редактировать отдел" data-toggle="tooltip">
+                        </span>
                     </a>
-                    <a href="" resource="/department/delete/${department.id}" class="btn btn-default"
+                    <c:url value="/department/delete/${department.id}" var="url">
+                        <c:param name="departmentName" value="${department.name}"/>
+                    </c:url>
+                    <a href="" resource="${url}" class="btn btn-default"
                        role="button" data-toggle="modal" data-target="#deleteModal">
-            <span class="fa fa-eraser"
-                  data-original-title="Удалить отдел" data-toggle="tooltip"></span>
+                        <span class="fa fa-eraser"
+                              data-original-title="Удалить отдел" data-toggle="tooltip">
+                        </span>
                     </a>
                 </small>
             </h2>
@@ -61,7 +66,7 @@
                     <dt>Персонал</dt>
                     <dd>
                         <a href="/search?department=${department.name}" class="btn btn-info">
-                            Посмотреть список персонала
+                            Персонал отдела
                         </a>
                     </dd>
                 </li>
@@ -87,6 +92,33 @@
             </div>
         </div>
     </div>
+    <c:if test="${not empty staffNumber}">
+        <div class="modal fade text-left" id="deleteWithUsersConfirm" role="dialog">
+            <div class="modal-dialog modal-dialog-center">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Удаление отдела c пользователями</h4>
+                    </div>
+                    <div class="modal-body">
+                        Вы действительно хотите удалить отдел в котором работает <strong>${staffNumber}</strong>
+                        сотрудник(-ки)?
+                        Все данные о сотрудниках будут утеряны.
+                    </div>
+                    <div class="modal-footer">
+                        <a href="/department/delete/${department.id}?confirm&departmentName=${department.name}"
+                           class="btn btn-primary btn-yes">Да</a>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Нет</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            jQuery('#deleteWithUsersConfirm').modal('show');
+        </script>
+    </c:if>
 </div>
 <jsp:include page="fragments/footer.jsp"/>
 </body>
