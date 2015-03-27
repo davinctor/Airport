@@ -103,11 +103,13 @@
                         <h4 class="modal-title">Удаление отдела c пользователями</h4>
                     </div>
                     <div class="modal-body">
-                        Вы действительно хотите удалить отдел в котором работает <strong>${staffNumber}</strong> сотрудник(-ки)?
+                        Вы действительно хотите удалить отдел в котором работает <strong>${staffNumber}</strong>
+                        сотрудник(-ки)?
                         Все данные о сотрудниках будут утеряны.
                     </div>
                     <div class="modal-footer">
-                        <a href="/department/delete/${department.id}?confirm&departmentName=${department.name}" class="btn btn-primary btn-yes">Да</a>
+                        <a href="/department/delete/${department.id}?confirm&departmentName=${department.name}"
+                           class="btn btn-primary btn-yes">Да</a>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Нет</button>
                     </div>
                 </div>

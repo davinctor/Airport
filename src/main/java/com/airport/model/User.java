@@ -7,33 +7,33 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "USERS")
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Basic
-    @Column(name = "LOGIN")
+    @Column(name = "login")
     @Size(min = 3, max = 10,
             message = "Длина от 3 до 10 символов")
     @NotNull(message = "Пароль не может быть пустым")
     private String login;
 
     @Basic
-    @Column(name = "PASSWORD")
+    @Column(name = "password")
     @NotNull(message = "Пароль не может быть пустым")
     @Size(min = 3, max = 20,
             message = "Длина от 3 до 10 символов")
     private String password;
 
     @Basic
-    @Column(name = "ROLE_OF_USER")
+    @Column(name = "role_of_user")
     @NotNull
     private String roleOfUser;
 
     @OneToOne
-    @JoinColumn(name = "STAFF_ID")
+    @JoinColumn(name = "staff_id")
     private Staff staff;
 
     public int getId() {

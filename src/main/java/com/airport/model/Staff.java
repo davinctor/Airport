@@ -8,52 +8,52 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
-@Table(name = "STAFF")
+@Table(name = "staff")
 public class Staff {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Basic
-    @Column(name = "SURNAME")
+    @Column(name = "surname")
     @NotNull(message = "Фамилия не может быть пустая")
     @Size(min = 1, max = 25,
             message = "Фамилия может содержать от 1 до 25 символов")
     private String surname;
 
     @Basic
-    @Column(name = "FIRSTNAME")
+    @Column(name = "firstname")
     @NotNull(message = "Имя не может быть пустым")
     @Size(min = 1, max = 25,
             message = "Имя может содержать от 1 до 25 символов")
     private String firstname;
 
     @Basic
-    @Column(name = "PATRONYMIC")
+    @Column(name = "patronymic")
     @NotNull(message = "Отчество не может быть пустым")
     @Size(min = 1, max = 25,
             message = "Отчество может содержать от 1 до 25 символов")
     private String patronymic;
 
     @Basic
-    @Column(name = "ADDRESS")
+    @Column(name = "address")
     @NotNull(message = "Адрес не может быть пустым")
     @Size(min = 10, max = 100,
             message = "Адрес может содержать от 10 до 100 символов")
     private String address;
 
     @ManyToOne
-    @JoinColumn(name = "DEPARTMENT_ID")
+    @JoinColumn(name = "department_id")
     private Department department;
 
     @OneToOne
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "STAFF_PHONES",
-            joinColumns = @JoinColumn(name = "STAFF_ID"),
-            inverseJoinColumns = @JoinColumn(name = "PHONE_ID"))
+    @JoinTable(name = "staff_phones",
+            joinColumns = @JoinColumn(name = "staff_id"),
+            inverseJoinColumns = @JoinColumn(name = "phone_id"))
     private Collection<Phone> phones;
 
     public Staff() {

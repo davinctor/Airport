@@ -24,7 +24,7 @@ jQuery(document).ready(function () {
         jQuery('#deleteModal .btn-yes').attr('href', resourse);
     });
     jQuery('[data-toggle="tooltip"]').tooltip();
-    jQuery('[href="#role"]').click(function() {
+    jQuery('[href="#role"]').click(function () {
         jQuery('[name="username"]').removeClass('show').addClass('hide');
         jQuery('[name="role"]').removeClass('hide').addClass('show');
     });
@@ -51,17 +51,17 @@ jQuery(document).ready(function () {
             return false;
         }
     });
-    jQuery('[data-dir="up"]').on('click', function() {
+    jQuery('[data-dir="up"]').on('click', function () {
         var spinnerInputField = jQuery('.number-spinner #' + jQuery(this).attr('for'));
-        var maxSpinner = parseInt(spinnerInputField.attr('max'),10);
-        var num =  parseInt(spinnerInputField.val(), 10);
+        var maxSpinner = parseInt(spinnerInputField.attr('max'), 10);
+        var num = parseInt(spinnerInputField.val(), 10);
         if (num < maxSpinner)
             spinnerInputField.val(num + 1);
     });
-    jQuery('[data-dir="dwn"]').on('click', function() {
+    jQuery('[data-dir="dwn"]').on('click', function () {
         var spinnerInputField = jQuery('.number-spinner #' + jQuery(this).attr('for'));
-        var minSpinner = parseInt(spinnerInputField.attr('min'),10);
-        var num =  parseInt(spinnerInputField.val(), 10);
+        var minSpinner = parseInt(spinnerInputField.attr('min'), 10);
+        var num = parseInt(spinnerInputField.val(), 10);
         if (num > minSpinner)
             spinnerInputField.val(num - 1);
     });

@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
-@Table(name = "PHONES")
+@Table(name = "phones")
 public class Phone {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Basic
-    @Column(name = "PHONE_NUM")
+    @Column(name = "phone_num")
     private String phoneNumber;
 
     @ManyToMany(mappedBy = "phones")

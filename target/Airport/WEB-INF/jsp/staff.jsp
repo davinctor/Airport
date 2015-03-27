@@ -25,7 +25,7 @@
                               data-original-title="Редактировать профиль" data-toggle="tooltip"></span>
                     </a>
                     <a href="" resource="/staff/delete/${staff.id}" class="btn btn-default"
-                        role="button" data-toggle="modal" data-target="#deleteModal">
+                       role="button" data-toggle="modal" data-target="#deleteModal">
                         <span class="fa fa-eraser"
                               data-original-title="Удалить профиль" data-toggle="tooltip"></span>
                     </a>

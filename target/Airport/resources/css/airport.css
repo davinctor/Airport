@@ -31,15 +31,18 @@ body {
 table tr th {
     text-align: center;
 }
+
 table tr td {
     vertical-align: middle;
 }
 dl dt {
     text-align: center !important;
 }
+
 .search-panel {
     margin-bottom: 15px;
 }
+
 .page-body {
     margin-bottom: 100px;
 }

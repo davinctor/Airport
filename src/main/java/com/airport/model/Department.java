@@ -7,34 +7,34 @@ import java.util.Collection;
 import java.util.Date;
 
 @Entity
-@Table(name = "DEPARTMENTS")
+@Table(name = "departments")
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Basic
-    @Column(name = "NAME")
+    @Column(name = "name")
     @NotNull(message = "Укажите название отдела")
     private String name;
     @Basic
-    @Column(name = "PHONE_NUM")
+    @Column(name = "phone_num")
     @NotNull(message = "Укажите номер телефона отдела")
     private String phoneNum;
     @Basic
-    @Column(name = "SCHEDULE_FROM")
+    @Column(name = "schedule_from")
     @Temporal(value = TemporalType.TIME)
     private Date scheduleFrom;
     @Basic
-    @Column(name = "SCHEDULE_TO")
+    @Column(name = "schedule_to")
     @Temporal(value = TemporalType.TIME)
     private Date scheduleTo;
     @Basic
-    @Column(name = "BREAK_FROM")
+    @Column(name = "break_from")
     @Temporal(value = TemporalType.TIME)
     private Date breakFrom;
     @Basic
-    @Column(name = "BREAK_TO")
+    @Column(name = "break_to")
     @Temporal(value = TemporalType.TIME)
     private Date breakTo;
 

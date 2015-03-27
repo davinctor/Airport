@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="war" build-on-make="true" name="Airport:war">
+  <artifact type="war" name="Airport:war">
     <output-path>$PROJECT_DIR$/target</output-path>
     <root id="archive" name="Airport.war">
       <element id="artifact" artifact-name="Airport:war exploded" />
