@@ -1,2 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project version="4" />
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="defaultPersistenceUnit" uuid="d1f6f9bc-fc43-4422-89d3-0dceee652f83">
+      <user-name>sa</user-name>
+    </data-source>
+    <data-source name="MySQL - airport-db@localhost" uuid="31fe3deb-b767-46a7-b76d-1bc9e3aa357a">
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <schema-pattern>airport-db.*</schema-pattern>
+      <default-schemas>airport-db.*</default-schemas>
+    </data-source>
+  </component>
+</project>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:beans="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <import resource="datasource-config.xml"/>
+    <beans:component-scan base-package="com.airport.security"/>
+
+    <security:http auto-config="true" use-expressions="true"
+                   authentication-manager-ref="authenticationManager">
+
+        <security:intercept-url pattern="/" access="isAuthenticated()"/>
+        <security:intercept-url pattern="/reservations" access="hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/reservations/" access="hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/reservation/**" access="hasRole('ROLE_USER') || hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/users/" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/users" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/user/**" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/staffs" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/staffs/" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/staff/**" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/departments" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/departments/" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/department/**" access="hasRole('ROLE_ADMIN')"/>
+
+        <security:form-login
+                login-page="/login"
+                login-processing-url="/j_spring_security_check"
+                username-parameter="j_username"
+                password-parameter="j_password"
+                authentication-failure-url="/login?fuckyou"
+                authentication-success-handler-ref="loginAuthenticationSuccessHandler"/>
+
+        <security:logout logout-url="/j_spring_security_logout"
+                         invalidate-session="true"
+                         logout-success-url="/login?byebye"
+                         delete-cookies="JSESSIONID"/>
+
+        <security:remember-me key="airportKey"
+                              token-validity-seconds="60"/>
+
+        <security:access-denied-handler error-page="/login"/>
+    </security:http>
+
+    <security:authentication-manager id="authenticationManager">
+        <security:authentication-provider>
+            <!--<security:user-service> IN MEMORY AUTH
+                   <security:user name="admin" password="admin"
+                                  authorities="ROLE_USER, ROLE_ADMIN"/>
+                   <security:user name="user" password="user"
+                                  authorities="ROLE_USER"/>
+            </security:user-service>-->
+            <security:jdbc-user-service id="userServiceJdbc" data-source-ref="dataSource"
+                                        users-by-username-query="select login, password, TRUE from users
+                            where login = ?;"
+                                        authorities-by-username-query="select login, role_of_user
+                            from users where login = ?;"/>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+
+    <!--  USED FOR GETTING SECURITY INFO -->
+    <!--<bean id="authenticationTrustResolver"-->
+    <!--class="org.springframework.security.authentication.AuthenticationTrustResolverImpl"/>-->
+    <!-- end security info -->
+
+    <!-- After success log in in this class will be redirect to page-->
+    <bean id="authenticationSuccessHandler"
+          class="com.airport.security.LoginAuthenticationSuccessHandler">
+        <!-- Redirection from /login page to /main if user already authorize -->
+        <constructor-arg type="java.lang.String" value="/"/>
+    </bean>
+
+
+</beans>

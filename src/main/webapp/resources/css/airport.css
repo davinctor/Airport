@@ -1,0 +1,56 @@
+.panel-login {
+    margin-top: 30px;
+}
+
+.navbar-fixed-bottom {
+    text-align: center;
+}
+
+.navbar-fixed-bottom .navbar-brand {
+    display: inline-block;
+    float: none;
+}
+
+#faq-data {
+    display: none;
+}
+
+body {
+    padding-top: 70px;
+}
+
+.page-header {
+    margin-top: 0;
+}
+
+.modal-dialog-center {
+    position: absolute;
+    width: 40%;
+    height: 50%;
+    top: 25%;
+    left: 30%;
+}
+
+table tr th {
+    text-align: center;
+}
+
+table tr td {
+    vertical-align: middle;
+}
+
+dl dt {
+    text-align: center !important;
+}
+
+.search-panel {
+    margin-bottom: 15px;
+}
+
+.page-body {
+    margin-bottom: 100px;
+}
+
+.alert {
+    margin-bottom: 0;
+}
