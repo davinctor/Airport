@@ -3,7 +3,7 @@
 
 <html>
 <head>
-
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="dist/font-awesome/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="dist/bootstrap-select/dist/css/bootstrap-select.min.css"/>
@@ -107,7 +107,7 @@
                 jQuery('[name="input-param"]').removeClass('hide').addClass('show');
                 jQuery('[name="select-param"]').removeClass('show').addClass('hide');
             });
-            jQuery('#department-select').on('change', function () {
+            jQuery('#departments-select').on('change', function () {
                 jQuery('.staff-profile select.department').each(function () {
                     jQuery(this).removeClass('show');
                     jQuery(this).addClass('hide');
@@ -116,7 +116,7 @@
                 jQuery('#' + this.value + '  option:first-child').prop('selected', true);
             });
             jQuery('[type="submit"].btn-success').click(function () {
-                var element = jQuery('#' + jQuery('#department-select').val() + ' option:first-child');
+                var element = jQuery('#' + jQuery('#departments-select').val() + ' option:first-child');
                 alert(element.prop('selected'));
                 if (element.prop('selected')) {
                     var prnt = element.parent().parent();
@@ -147,10 +147,15 @@
                     format: 'HH:mm'
                 });
             });
+            jQuery('[id^="department-"] option').on('click', function () {
+                alert(jQuery(this).attr("value"));
+                jQuery('[name="staff-id"]').val(jQuery(this).attr("value"));
+            });
         });
     </script>
 </head>
 <body>
+
 
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
@@ -173,26 +178,26 @@
                 <li class="dropdown
           ">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                        <span class="fa fa-ticket"></span> ������������ <span class="caret"></span>
+                        <span class="fa fa-ticket"></span> Бронирование <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="/reservation/new">������������ �����</a></li>
+                        <li><a href="/reservation/find">Бронирование места</a></li>
                         <li class="divider"></li>
-                        <li><a href="/reservations">������ �����</a></li>
+                        <li><a href="/reservations">Список брони</a></li>
                     </ul>
                 </li>
 
                 <li class="
-          dropdown 
+          dropdown
           ">
 
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                        <span class="fa fa-plane"></span> ����� <span class="caret"></span>
+                        <span class="fa fa-plane"></span> Рейсы <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="/flight/new">�������� ������ �����</a></li>
+                        <li><a href="/flight/new">Создание нового рейса</a></li>
                         <li class="divider"></li>
-                        <li><a href="/flights">���������� �������</a></li>
+                        <li><a href="/flights">Управление рейсами</a></li>
                     </ul>
 
 
@@ -201,12 +206,12 @@
                 <li class="dropdown
           ">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                        <span class="fa fa-check"></span> ����������� <span class="caret"></span>
+                        <span class="fa fa-check"></span> Регистрация <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="/registration/new">����������� ���������</a></li>
+                        <li><a href="/registration/new">Регистрация пассажира</a></li>
                         <li class="divider"></li>
-                        <li><a href="/registrations">������ �����������</a></li>
+                        <li><a href="/registrations">Список регистраций</a></li>
                     </ul>
                 </li>
 
@@ -214,50 +219,52 @@
                 <li class="
             ">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                        <span class="fa fa-users"></span> ������������
+                        <span class="fa fa-users"></span> Пользователи
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="/user/new">�������� ������ ������������</a></li>
+                        <li><a href="/user/new">Создание нового пользователя</a></li>
                         <li class="divider"></li>
-                        <li><a href="/users">������ �������������</a></li>
+                        <li><a href="/users">Список пользователей</a></li>
                     </ul>
                 </li>
+
 
 
                 <li class="
             ">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                        <span class="fa fa-suitcase"></span> ��������
+                        <span class="fa fa-suitcase"></span> Персонал
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="/staff/new">����� ���������</a></li>
+                        <li><a href="/staff/new">Новый сотрудник</a></li>
                         <li class="divider"></li>
-                        <li><a href="/staffs">��������</a></li>
+                        <li><a href="/staffs">Персонал</a></li>
                     </ul>
                 </li>
+
 
 
                 <li class="
             ">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                        <span class="fa fa-building"></span> ������
+                        <span class="fa fa-building"></span> Отделы
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="/department/new">����� �����</a></li>
+                        <li><a href="/department/new">Новый отдел</a></li>
                         <li class="divider"></li>
-                        <li><a href="/departments">������ �������</a></li>
+                        <li><a href="/departments">Список отделов</a></li>
                     </ul>
                 </li>
 
             </ul>
-            <form class="navbar-form navbar-right" action="j_spring_security_logout" method="get">
+            <form class="navbar-form navbar-right" action="j_spring_security_logout" method="post">
                 <div class="btn-group">
                     <a class="btn btn-primary" href="/user/1" role="button">
 
-                        ����������� ������
+                        Пономаренко Виктор
                     </a>
                     <button type="submit" class="btn btn-primary">
                         <i class="fa fa-sign-out"></i>
@@ -267,130 +274,175 @@
         </div>
     </div>
 </div>
-<div class="page-body container-fluid text-center">
-    <div class="page-header row">
-        <div class="col-lg-8 col-lg-offset-2">
-            <h2>
-                IT
-                <small>
-                    <a href="/department/edit/1" class="btn btn-default">
-                        <span class="fa fa-pencil"
-                              data-original-title="������������� �����" data-toggle="tooltip">
-                        </span>
-                    </a>
 
-                    <a href="" resource="/department/delete/1?departmentName=IT" class="btn btn-default"
-                       role="button" data-toggle="modal" data-target="#deleteModal">
-                        <span class="fa fa-eraser"
-                              data-original-title="������� �����" data-toggle="tooltip">
-                        </span>
-                    </a>
-                </small>
+<div class="page-body container-fluid text-center">
+
+    <div class="page-header row">
+        <div class="col-lg-8 col-lg-offset-2 col-sm-12">
+            <h2>
+                natali
             </h2>
         </div>
     </div>
-    <div class="col-md-offset-4 col-md-4 row">
-        <ul class="list-group">
-            <dl class="dl-horizontal">
-                <li class="list-group-item">
-                    <dt>�������� ������</dt>
-                    <dd>IT</dd>
-                </li>
-                <li class="list-group-item">
-                    <dt>����� ������</dt>
-                    <dd>
-                        <span class="fa fa-clock-o"></span>
-                        09:00:00 : 17:00:00
-                    </dd>
-                </li>
-                <li class="list-group-item">
-                    <dt>�������</dt>
-                    <dd>
-                        <span class="fa fa-coffee"></span>
-                        12:00:00 : 13:00:00
-                    </dd>
-                </li>
-                <li class="list-group-item">
-                    <dt>����� ��������</dt>
-                    <dd>+380008000102</dd>
-                </li>
-                <li class="list-group-item">
-                    <dt>��������</dt>
-                    <dd>
-                        <a href="/search?department=IT" class="btn btn-info">
-                            �������� ������
-                        </a>
-                    </dd>
-                </li>
-            </dl>
-        </ul>
-    </div>
-    <div class="modal fade text-left" id="deleteModal" role="dialog">
-        <div class="modal-dialog modal-dialog-center">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title">�������� ������</h4>
-                </div>
-                <div class="modal-body">
-                    �� ������������� ������ ������� ����� �� ���� ������?
-                </div>
-                <div class="modal-footer">
-                    <a href="" class="btn btn-primary btn-yes">��</a>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">���</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade text-left" id="deleteWithUsersConfirm" role="dialog">
-        <div class="modal-dialog modal-dialog-center">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title">�������� ������ c ��������������</h4>
-                </div>
-                <div class="modal-body">
-                    �� ������������� ������ ������� ����� � ������� �������� <strong>34</strong> ����������?
-                    ��� ������ � ����������� ����� �������.
-                </div>
-                <div class="modal-footer">
-                    <a href="" class="btn btn-primary btn-yes">��</a>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">���</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        jQuery('#deleteWithUsersConfirm').modal('show');
-        jQuery('button.close').click(function () {
-            jQuery('#deleteWithUsersConfirm').modal('hide');
-        });
-    </script>
-</div>
 
+    <div class="row">
+        <div class="col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6 col-sm-offset-2 col-sm-8 col-xs-12">
+            <form id="user" class="form-horizontal" action="/user/edit/2" method="post">
+
+
+                <div class="form-group ">
+                    <label for="login" class="col-md-3 control-label">Имя пользователя</label>
+
+                    <div class="col-md-7">
+                        <input id="login" name="login" class="form-control" placeholder="Введите имя пользователя"
+                               type="text" readonly="readonly" value="natali"/>
+                    </div>
+          <span class="col-md-2">
+
+          </span>
+                </div>
+
+
+                <div class="form-group ">
+                    <label for="pass" class="col-md-3 control-label">Пароль</label>
+
+                    <div class="col-md-7">
+                        <input id="pass" name="password" class="form-control" placeholder="Введите пароль"
+                               type="password" value="admin"/>
+                    </div>
+                    <span class="col-md-2"></span>
+                </div>
+
+                <div class="form-group ">
+                    <label for="pass" class="col-md-3 control-label">Повторите пароль</label>
+
+                    <div class="col-md-7">
+                        <input name="re-password" type="password" class="form-control" id="pass"
+                               placeholder="Введите пароль"/>
+                    </div>
+                    <span class="col-md-2"></span>
+                </div>
+
+
+                <div class="form-group ">
+                    <label for="role" class="col-md-3 control-label">Права доступа</label>
+
+                    <div class="col-md-7">
+                        <select id="role" name="roleOfUser" class="form-control">
+                            <option value="ROLE_ADMIN">
+                                Администратор
+                            </option>
+                            <option value="ROLE_USER" selected="selected">
+                                Пользователь
+                            </option>
+                        </select>
+                    </div>
+                    <span class="col-md-2"></span>
+                </div>
+
+
+                <div class="form-group ">
+
+                    <input id="staff" name="staff" type="hidden"
+                           value="4 Продавец Молодец Иванович ул. Продавцов 16/25"/>
+
+                    <label for="staff" class="col-md-3 control-label">Профиль сотрудника</label>
+
+                    <div class="staff-profile" id="staff">
+
+
+                        <div class="col-md-3">
+                            <select class="form-control" id="departments-select">
+
+
+                                <option value="department-2"
+
+                                        selected
+
+                                        >
+                                    Кассиры
+                                </option>
+
+
+                                <option value="department-5"
+                                        >
+                                    Экипаж самолётов
+                                </option>
+
+
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <input class="hide" name="staff-id"/>
+
+                            <select class=" form-control department"
+                                    id="department-2" name="staff-id">
+                                <option value="-1" selected>Выбрать</option>
+
+                                <option value="4"
+                                        selected>
+                                    Продавец Молодец
+                                </option>
+
+                                <option value="3"
+                                        >
+                                    Господин Никто
+                                </option>
+
+                            </select>
+
+
+                            <select class="hide form-control department"
+                                    id="department-5" name="staff-id">
+                                <option value="-1" selected>Выбрать</option>
+
+                                <option value="13"
+                                        >
+                                    Абсолютно Новый
+                                </option>
+
+                            </select>
+
+
+                        </div>
+
+
+                    </div>
+            <span class="col-md-2">
+
+            </span>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-1 col-md-10">
+                        <button class="btn btn-lg btn-success btn-block" type="submit">
+                            Обновить <span class="fa fa-user"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- container-fluid -->
 
 <div class="navbar navbar-default navbar-fixed-bottom">
     <div class="container-fluid">
         <div id="faq-data">
             <small>
                 <a href="#faq-btn" class="list-group-item">
-                    ������������ - ��� ��������������� �������������� �����
+                    Бронирование - это предварительное резервирование места
                 </a>
                 <a href="#faq-btn" class="list-group-item">
-                    ����� - ������ ��������� ������ ��� �����������
+                    Рейсы - список доступных рейсов для регистрации
                 </a>
                 <a href="#faq-btn" class="list-group-item">
-                    ����������� - ����� �������� �� ������� ������� ���������� ������ �����������
+                    Регистрация - перед посадкой на самолет клиенту необходимо пройти регистрацию
                 </a>
             </small>
         </div>
         <div class="navbar-form navbar-left">
             <button type="button" class="btn btn btn-info faq" title="FAQ" id="faq-btn">
-                ������
+                Помощь
             </button>
         </div>
         <a class="navbar-brand" href="/">

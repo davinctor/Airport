@@ -44,6 +44,10 @@
         <security:remember-me key="airportKey"
                               token-validity-seconds="60"/>
 
+        <security:session-management>
+            <security:concurrency-control max-sessions="1"/>
+        </security:session-management>
+
         <security:access-denied-handler error-page="/login"/>
     </security:http>
 

@@ -127,6 +127,8 @@ public class Staff {
 
     @Override
     public boolean equals(Object obj) {
+        if (!(obj instanceof Staff))
+            return false;
         Staff staff = (Staff) obj;
         if (this.id != staff.getId())
             return false;

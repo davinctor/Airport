@@ -2,6 +2,10 @@
     margin-top: 30px;
 }
 
+.panel-login div.alert {
+    margin-bottom: 15px;
+}
+
 .navbar-fixed-bottom {
     text-align: center;
 }

@@ -18,7 +18,7 @@
 <body>
 <div id="wrapper" class="container">
     <div class="row">
-        <div class="col-md-4 col-md-offset-4">
+        <div class="col-md-4 col-md-offset-4 col-sm-10 col-sm-offset-1">
             <div class="panel panel-default panel-login">
                 <div class="panel-heading">
                     <h3 class="panel-title">Авторизация</h3>

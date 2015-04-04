@@ -8,9 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-/**
- * Created by Vic on 21.01.2015.
- */
 public interface SpringDataStaffRepository extends PagingAndSortingRepository<Staff, Integer> {
     @Query("SELECT DISTINCT staff FROM Staff staff WHERE staff.id = :id")
     public Staff findById(@Param("id") int id);

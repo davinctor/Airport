@@ -1,5 +1,6 @@
 jQuery(document).ready(function () {
-    jQuery('.faq').popover({
+    var faq = jQuery('.faq');
+    faq.popover({
         trigger: 'click',
         placement: 'top',
         html: 'true',
@@ -9,7 +10,7 @@ jQuery(document).ready(function () {
         + '<div class="popover-content"></div>'
         + '</div>'
     });
-    jQuery('.faq').click(function () {
+    faq.click(function () {
         jQuery('a.list-group-item').hover(
             function () {
                 jQuery(this).addClass('active');
@@ -32,18 +33,19 @@ jQuery(document).ready(function () {
         jQuery('[name="username"]').removeClass('hide').addClass('show');
         jQuery('[name="role"]').removeClass('show').addClass('hide');
     });
-    jQuery('#department-select').on('change', function () {
+    jQuery('#departments-select').on('change', function () {
         jQuery('.staff-profile select.department').each(function () {
             jQuery(this).removeClass('show');
             jQuery(this).addClass('hide');
         });
-        jQuery('#' + this.value).addClass('show');
-        jQuery('#' + this.value).on('change', function () {
+        var thisObj = jQuery('#' + this.value);
+        thisObj.addClass('show');
+        thisObj.on('change', function () {
             jQuery('#' + this.value + ' option:first-child').prop('selected', true);
         });
     });
     jQuery('[type="submit"].btn-success').click(function () {
-        var element = jQuery('#' + jQuery('#department-select').val() + ' option:first-child');
+        var element = jQuery('#' + jQuery('#departments-select').val() + ' option:first-child');
         if (element.prop('selected')) {
             var prnt = element.parent().parent();
             prnt.addClass('has-error');
@@ -72,5 +74,11 @@ jQuery(document).ready(function () {
         jQuery(this).datetimepicker({
             format: 'HH:mm'
         });
+    });
+    /**
+     * Current <select> with staffs must have name="staff-id" for send right selected id staff
+     */
+    jQuery('[id^="department-"] option').on('click', function () {
+        jQuery('[name="staff-id"]').val(jQuery(this).attr("value"));
     });
 });

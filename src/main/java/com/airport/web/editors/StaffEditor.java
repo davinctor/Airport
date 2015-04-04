@@ -5,6 +5,9 @@ import com.airport.service.AirportService;
 
 import java.beans.PropertyEditorSupport;
 
+/**
+ * Use for save current staff of edited user between page reloads
+ */
 public class StaffEditor extends PropertyEditorSupport {
 
     private final AirportService airportService;

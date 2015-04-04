@@ -48,8 +48,13 @@ public class Department {
     private Collection<Staff> staffs;
 
     public Department() {
-        super();
-        staffs = new ArrayList<Staff>();
+        this(0, "");
+    }
+
+    public Department(int id, String name) {
+        this.id = id;
+        this.name = name;
+        this.staffs = new ArrayList<Staff>();
     }
 
     public int getId() {
@@ -114,5 +119,10 @@ public class Department {
 
     public void setStaffs(Collection<Staff> staffs) {
         this.staffs = staffs;
+    }
+
+    @Override
+    public String toString() {
+        return id + " " + name;
     }
 }

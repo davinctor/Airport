@@ -75,7 +75,6 @@ public class AirportDeleteController {
             airportService.deleteStaffsByDepartmentId(departmentId);
             airportService.deleteDepartmentById(departmentId);
             if (departmentName != null) {
-                departmentName = new String(departmentName.getBytes("ISO8859_1"), "UTF-8");
                 redirectAttributes.addFlashAttribute("deleteDepartmentSuccess",
                         "Отдел " + departmentName + " успешно удален.");
             } else

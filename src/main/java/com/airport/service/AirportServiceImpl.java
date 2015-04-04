@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -186,8 +187,23 @@ public class AirportServiceImpl implements AirportService {
     }
 
     @Override
+    public Collection<Phone> getStaffPhones(int staffId) {
+        return phoneRepository.getStaffPhones(staffId);
+    }
+
+    @Override
     public void savePhone(Phone phone) {
         phoneRepository.save(phone);
+    }
+
+    @Override
+    public void deletePhone(Phone phone) {
+        phoneRepository.delete(phone);
+    }
+
+    @Override
+    public void deletePhoneById(int id) {
+        phoneRepository.delete(id);
     }
 
     public static <E> List<E> makeCollection(Iterable<E> iter) {

@@ -1,8 +1,5 @@
 package com.airport.service;
 
-/**
- * Created by Vic on 19.01.2015.
- */
 public class MainPageService {
     private String url;
     private String icon;

@@ -6,17 +6,15 @@ import com.airport.model.Staff;
 import com.airport.model.User;
 import com.airport.service.AirportService;
 import com.airport.util.ConsoleLog;
+import com.airport.web.editors.DepartmentEditor;
 import com.airport.web.editors.StaffEditor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import javax.validation.Valid;
 import java.security.Principal;
 import java.text.ParseException;
@@ -34,12 +32,13 @@ public class AirportCreateUpdateController {
     private AirportService airportService;
 
     public AirportCreateUpdateController() {
-        this.sdf = new SimpleDateFormat();
+        this.sdf = new SimpleDateFormat(TIME_FORMAT);
     }
 
     @InitBinder
     protected void initBinder(ServletRequestDataBinder binder) {
         binder.registerCustomEditor(Staff.class, new StaffEditor(airportService));
+        binder.registerCustomEditor(Department.class, new DepartmentEditor());
     }
 
     /**
@@ -56,7 +55,7 @@ public class AirportCreateUpdateController {
             return "redirect:/departments/";
         }
         model.addAttribute("department", department);
-        this.sdf.applyPattern(TIME_FORMAT);
+
         model.addAttribute("scheduleFrom", this.sdf.format(department.getScheduleFrom()));
         model.addAttribute("scheduleTo", this.sdf.format(department.getScheduleTo()));
         model.addAttribute("breakFrom", this.sdf.format(department.getBreakFrom()));
@@ -119,8 +118,7 @@ public class AirportCreateUpdateController {
                 || scheduleFromError || scheduleToError
                 || breakFromError || breakToError) {
             checkTimeErrors(model, scheduleFromError, scheduleToError, breakFromError, breakToError);
-            for (ObjectError error : bindingResult.getAllErrors())
-                ConsoleLog.outputError(error.toString());
+            ConsoleLog.outputError(bindingResult.toString());
             return "createOrUpdateDepartment";
         }
         department.setScheduleFrom(scheduleFromD);
@@ -159,25 +157,37 @@ public class AirportCreateUpdateController {
 
     @RequestMapping(value = "staff/edit/{id}", method = RequestMethod.GET)
     public String showStaffUpdateForm(@PathVariable Integer id, Model model, RedirectAttributes redirectAttributes) {
-        Staff staff = airportService.findStaffById(id);
+        Staff staff = airportService.findStaffByIdWithPhones(id);
         if (staff == null) {
             redirectAttributes.addAttribute("staffNotFound",
                     "Cотрудник с id " + id + " не найден.");
             return "redirect:/staffs/";
         }
         model.addAttribute("staff", staff);
-        getDepartments(model);
+        model.addAttribute("departments", airportService.getAllDepartments());
+        model.addAttribute("phones", getPhonesInString(staff.getPhones()));
         return "createOrUpdateStaff";
+    }
+
+    @RequestMapping(value = "staff/edit/{id}", method = RequestMethod.POST)
+    public String updateStaff(@Valid @ModelAttribute("staff") Staff staff,
+                              BindingResult bindingResult,
+                              Model model,
+                              @RequestParam(value = "department-id", required = false, defaultValue = "-1")
+                              Integer departmentId,
+                              @RequestParam(value = "phone-numbers", required = false, defaultValue = "")
+                              String phones) {
+        return addSaveStaff(staff, bindingResult, model, departmentId, phones, false);
     }
 
     @RequestMapping(value = "staff/new", method = RequestMethod.GET)
     public String showNewStaffForm(Model model) {
         model.addAttribute("staff", new Staff());
-        getDepartments(model);
+        model.addAttribute("departments", airportService.getAllDepartments());
         return "createOrUpdateStaff";
     }
 
-    @RequestMapping(value = "/staff/new", method = RequestMethod.POST)
+    @RequestMapping(value = "staff/new", method = RequestMethod.POST)
     public String addNewStaff(@Valid @ModelAttribute("staff") Staff staff,
                               BindingResult bindingResult,
                               Model model,
@@ -185,52 +195,118 @@ public class AirportCreateUpdateController {
                               Integer departmentId,
                               @RequestParam(value = "phone-numbers", required = false, defaultValue = "")
                               String phones) {
+        return addSaveStaff(staff, bindingResult, model, departmentId, phones, true);
+    }
+
+    public String addSaveStaff(Staff staff, BindingResult bindingResult, Model model,
+                               int departmentId, String phones, boolean isCreate) {
         Department department = null;
         boolean departmentError = departmentId == -1 ||
                 (department = airportService.findDepartmentById(departmentId)) == null;
-        if (bindingResult.hasErrors() || departmentError) {
-            //Error first
+        String[] phonesNums = phones.split("\n");
+        boolean phonesError = !checkPhonesOnValid(phonesNums);
+        if (bindingResult.hasErrors() || departmentError || phonesError) {
             if (departmentError)
                 model.addAttribute("departmentError", "Отдел не найден");
-            // Data
-            getDepartments(model);
+            if (phonesError)
+                model.addAttribute("phonesError", "Номер телефона от " + Phone.MIN_SIZE
+                        + " до " + Phone.MAX_SIZE + " символов.");
             model.addAttribute("phones", phones);
-            for (ObjectError error : bindingResult.getAllErrors())
-                ConsoleLog.outputError(error.toString());
+            model.addAttribute("departments", airportService.getAllDepartments());
+            ConsoleLog.outputError(bindingResult.toString());
             return "createOrUpdateStaff";
         }
         staff.setDepartment(department);
-        // Saving phone's numbers
         airportService.saveStaff(staff);
-        if (!phones.isEmpty()) {
-            staff.getPhones().addAll(createPhonesListForStaff(phones, staff));
-        }
+        // Saving or updating phone's numbers
+        if (isCreate) {
+            if (!phones.isEmpty())
+                createStaffPhones(phonesNums, staff);
+        } else
+            updateStaffPhones(phonesNums, staff, airportService.getStaffPhones(staff.getId()));
         return "redirect:/staff/" + staff.getId();
     }
 
-    private void getDepartments(Model model) {
-        List<Department> deps = airportService.getAllDepartments();
-        if (deps.isEmpty())
-            model.addAttribute("emptyDepartments", "Список отделов пуст.");
-        else
-            model.addAttribute("departments", deps);
+    /**
+     * Get string format phone numbers to attach to the model
+     *
+     * @param phones
+     * @return
+     */
+    private String getPhonesInString(Collection<Phone> phones) {
+        StringBuilder sb = new StringBuilder();
+        for (Phone phone : phones)
+            sb.append(phone.getPhoneNumber() + "\n");
+        return sb.toString();
     }
 
-    private List<Phone> createPhonesListForStaff(String phones, Staff staff) {
-        String[] phonesNums = phones.split("\n");
-        List<Phone> phonesList = new ArrayList<Phone>(phonesNums.length);
+    /**
+     * Check phone numbers on valid
+     *
+     * @param phonesNums array of String numbers
+     * @return if check on valid success return true, else false
+     */
+    private boolean checkPhonesOnValid(String[] phonesNums) {
+        for (int i = 0; i < phonesNums.length; i++) {
+            if (phonesNums[i].length() < Phone.MIN_SIZE ||
+                    phonesNums[i].length() > Phone.MAX_SIZE)
+                return false;
+        }
+        return true;
+    }
+
+    /**
+     * Save new phones for already created new staff
+     *
+     * @param phonesNums array of String numbers, that already pass check on valid
+     * @param staff      Current staff
+     */
+    private void createStaffPhones(String[] phonesNums, Staff staff) {
         Phone phone;
         for (String phoneNum : phonesNums) {
-            phone = new Phone();
-            phone.setPhoneNumber(phoneNum);
-            phone.setStaff(staff);
-            phonesList.add(phone);
+            phone = new Phone(phoneNum,staff);
             airportService.savePhone(phone);
         }
-
-        return phonesList;
     }
 
+    /**
+     * Update phones of staff
+     *
+     * @param phonesNums array of String numbers, that already pass check on valid
+     * @param staff      Current staff
+     * @param phones     Old phones which will update
+     */
+    private void updateStaffPhones(String[] phonesNums, Staff staff, Collection<Phone> phones) {
+        Phone[] oldPhones = new Phone[phones.size()];
+        phones.toArray(oldPhones);
+        // Find intersection of updated list phones and old
+        // If phones equals continue iteration and set null current new phone and old
+        String numTemp;
+        if (!phones.isEmpty() && oldPhones.length != 0) {
+            outer:
+            for (int i = 0; i < phonesNums.length; i++) {
+                for (int j = 0; j < oldPhones.length; j++) {
+                    if (oldPhones[j] == null)
+                        continue;
+                    if (oldPhones[j].getPhoneNumber().equals(phonesNums[i])) {
+                        oldPhones[j] = null;
+                        phonesNums[i] = null;
+                        continue outer;
+                    }
+                }
+            }
+        }
+        // Save all new phones, which not enter in intersection
+        for (int i = 0; i < phonesNums.length; i++) {
+            if (phonesNums[i] != null && !phonesNums[i].isEmpty())
+                airportService.savePhone(new Phone(phonesNums[i], staff));
+        }
+        // Delete all other old phones, which not enter in intersection
+        for (int j = 0; j < oldPhones.length; j++) {
+            if (oldPhones[j] != null)
+                airportService.deletePhone(oldPhones[j]);
+        }
+    }
 
     /**
      * ******************* USER *****************************
@@ -247,13 +323,13 @@ public class AirportCreateUpdateController {
             return "redirect:/users/";
         }
         model.addAttribute("user", user);
-        getStaffsWithNullUser(model, id);
+        model.addAttribute("departments", airportService.getDepartmentsWithStaffNullUser(id));
         return "createOrUpdateUser";
     }
 
     @RequestMapping(value = "/user/edit/{id}", method = RequestMethod.POST)
-    public String updateUser(@ModelAttribute("user") User user,
-                             @PathVariable Integer id,
+    public String updateUser(@Valid @ModelAttribute("user") User user,
+                             @PathVariable("id") Integer id,
                              Model model, BindingResult bindingResult,
                              @RequestParam(value = "staff-id", required = false, defaultValue = "-1")
                              Integer staffId,
@@ -266,7 +342,8 @@ public class AirportCreateUpdateController {
     @RequestMapping(value = "user/new", method = RequestMethod.GET)
     public String showNewUserForm(Model model) {
         model.addAttribute("user", new User());
-        getStaffsWithNullUser(model, AirportService.WITHOUT_CUR_STAFF);
+        model.addAttribute("departments",
+                airportService.getDepartmentsWithStaffNullUser(AirportService.WITHOUT_CUR_STAFF));
         return "createOrUpdateUser";
     }
 
@@ -290,7 +367,7 @@ public class AirportCreateUpdateController {
         if (create)
             user.setLogin(user.getLogin().toLowerCase());
         else {
-            Staff old = airportService.findStaffByUserId(user.getId());
+            Staff old = user.getStaff();
             if (!old.equals(staff)) {
                 old.setUser(null);
                 airportService.saveStaff(old);
@@ -303,7 +380,8 @@ public class AirportCreateUpdateController {
         User curUser;
         if ((curUser = (User) model.asMap().get("curUser")).getId() == includeId &&
                 !user.getPassword().equals(curUser.getPassword()))
-            SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
+            return "redirect:/j_spring_security_logout";
+
         return "redirect:/user/" + user.getId();
     }
 
@@ -318,27 +396,17 @@ public class AirportCreateUpdateController {
                 || usernameAlreadyExists
                 || rePassError
                 || staffError) {
-            ConsoleLog.outputError(bindingResult.toString());
-            getStaffsWithNullUser(model, includeId);
+            model.addAttribute("departments", airportService.getDepartmentsWithStaffNullUser(includeId));
             if (usernameAlreadyExists)
                 model.addAttribute("usernameExists", "Имя пользователя занято.");
             if (rePassError)
                 model.addAttribute("rePassError", "Пароли не совпадают!");
             if (staffError)
                 model.addAttribute("staffError", "Сотрудник не найден!");
+            ConsoleLog.outputError(bindingResult.toString());
             return true;
         }
         return false;
-    }
-
-
-    private void getStaffsWithNullUser(Model model, int curUserStaffId) {
-        List<Department> deps =
-                airportService.getDepartmentsWithStaffNullUser(curUserStaffId);
-        if (deps.isEmpty())
-            model.addAttribute("emptyDepartments", "У всех сотрудников есть профиль пользователя.");
-        else
-            model.addAttribute("departments", deps);
     }
 
     @ModelAttribute("curUser")

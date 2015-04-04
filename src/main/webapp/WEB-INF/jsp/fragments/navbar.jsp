@@ -113,7 +113,7 @@
                     </li>
                 </c:if>
             </ul>
-            <form class="navbar-form navbar-right" action="j_spring_security_logout" method="get">
+            <form class="navbar-form navbar-right" action="j_spring_security_logout" method="post">
                 <div class="btn-group">
                     <a class="btn btn-primary" href="${homeUrl}/user/${curUser.id}" role="button">
                         <c:set value="${curUser.staff}" var="curStaff"/>
