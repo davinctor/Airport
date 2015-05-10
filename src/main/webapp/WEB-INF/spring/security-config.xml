@@ -51,8 +51,13 @@
         <security:access-denied-handler error-page="/login"/>
     </security:http>
 
+    <bean name="bcryptEncode" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+        <constructor-arg value="12"></constructor-arg>
+    </bean>
+
     <security:authentication-manager id="authenticationManager">
         <security:authentication-provider>
+            <security:password-encoder ref="bcryptEncode"/>
             <!--<security:user-service> IN MEMORY AUTH
                    <security:user name="admin" password="admin"
                                   authorities="ROLE_USER, ROLE_ADMIN"/>

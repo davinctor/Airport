@@ -1,6 +1,8 @@
 package com.airport.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,6 +11,8 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "users")
 public class User {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -36,6 +40,8 @@ public class User {
     @JoinColumn(name = "staff_id")
     private Staff staff;
 
+    private final static int STRENGTH = 12;
+
     public int getId() {
         return id;
     }
@@ -57,7 +63,7 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = new BCryptPasswordEncoder(STRENGTH).encode(password);
     }
 
     public String getRoleOfUser() {
